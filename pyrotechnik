@@ -1,0 +1,39 @@
+#zapamatam si id vybusneho kabla alebo ho tagnem = je vybusny
+import tkinter as tk
+import random
+win = tk.Tk()
+colors = ['red', 'purple', 'black', 'blue', 'turquoise']
+width = 300
+height = 15
+ux = 100
+uy = 100
+wires = []
+explosion = 0
+ftime = 100
+status = True
+def DrawWires():
+    global wires, explosion
+    for i in range(5): #len(colors)
+        wires.append(canvas.create_rectangle(ux, uy+height*i, ux+width, uy+height*(i+1), fill = colors[i]))
+    explosion = random.choice(wires)
+
+def clicker(e):
+    global x,y
+    if ux <e.x<ux+width and uy <e.y<uy+height*5:
+        colors = canvas.find_overlapping(e.x,e.y,e.x,e.y)[0]
+        if colors == explosion:
+            canvas.create_text(500/2, h-30, text = 'vyhral si', fill = 'black', font = 'Arial 25')
+
+def changer():
+    global ftime
+    ftime -=1
+    canvas.itemconfig(t,text=ftime)
+    if status:
+        canvas.after(100,changer)
+
+canvas = tk.Canvas(win, height = 500, width = 500, bg = 'white')
+canvas.pack()
+t = canvas.create_text(10,10,text=ftime)
+canvas.bind('<Button-1>',clicker)
+DrawWires()
+win.mainloop()
